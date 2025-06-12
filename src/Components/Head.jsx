@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
-import { toggleMenu } from "../Utils/appSlice";
+import { toggleMenu } from "../Utils/AppSlice";
 import { useDispatch } from "react-redux";
 import Mode from "./Mode";
 import { Youtube_Search_Api_Url } from "../Utils/Constants";
