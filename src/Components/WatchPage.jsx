@@ -1,6 +1,6 @@
 import React, { use, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { closeMenu } from '../utils/appSlice';
+import { closeMenu } from '../Utils/AppSlice';
 import { useSearchParams } from 'react-router-dom';
 
 const WatchPage = () => {
