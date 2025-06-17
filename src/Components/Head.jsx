@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -8,9 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Mode from "./Mode";
 import { Youtube_Search_Api_Url } from "../Utils/constants";
 import { cacheResults } from "../Utils/searchSlice";
-import { setSearchTerm } from "../Utils/searchSlice";
+import { useNavigate } from "react-router-dom";
 
 const Head = () => {
+  const navigate = useNavigate();
   const darkMode = useSelector((store) => store.theme.darkMode);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -33,6 +33,7 @@ const Head = () => {
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
+
   const getSearchQuery = async () => {
     const response = await fetch(Youtube_Search_Api_Url + searchQuery);
     const data = await response.json();
@@ -40,7 +41,12 @@ const Head = () => {
     dispatch(cacheResults({ [searchQuery]: data[1] }));
   };
 
- 
+  const handleSearch = (query = searchQuery) => {
+    if (query.trim() !== "") {
+      navigate(`/results?q=${encodeURIComponent(query.trim())}`);
+      setShowSuggestions(false);
+    }
+  };
 
   return (
     <header className="flex items-center justify-between p-3 shadow-md">
@@ -68,16 +74,22 @@ const Head = () => {
         <div className="flex">
           <input
             className="flex-1 h-10 px-4 rounded-l-full border border-gray-300 
-            focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300
-            shadow-sm hover:border-blue-300 transition-colors duration-200"
+              focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-300
+              shadow-sm hover:border-blue-300 transition-colors duration-200"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setShowSuggestions(false)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSearch();
+            }}
             placeholder="Search"
           />
-          <button className="h-10 px-4 bg-gray-100 dark:bg-gray-700 border border-l-0 border-gray-300 dark:border-gray-600 rounded-r-full hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center mx-0.5">
+          <button
+            onClick={() => handleSearch()}
+            className="h-10 px-4 bg-gray-100 dark:bg-gray-700 border border-l-0 border-gray-300 dark:border-gray-600 rounded-r-full hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center mx-0.5"
+          >
             <IoIosSearch size={22} className="text-gray-800 dark:text-white" />
           </button>
         </div>
@@ -91,8 +103,7 @@ const Head = () => {
                   key={index}
                   onMouseDown={() => {
                     setSearchQuery(s);
-                    setShowSuggestions(true);
-                    
+                    handleSearch(s);
                   }}
                   className="px-4 py-1 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                 >
@@ -105,7 +116,7 @@ const Head = () => {
       </div>
 
       {/* Right: User */}
-      <div className="flex items-center  focus:ring-blue-500">
+      <div className="flex items-center focus:ring-blue-500">
         <Mode />
         <FaUserCircle size={32} className="text-gray-600" />
       </div>
@@ -114,4 +125,3 @@ const Head = () => {
 };
 
 export default Head;
-
