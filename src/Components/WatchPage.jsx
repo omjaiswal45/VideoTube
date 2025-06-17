@@ -15,7 +15,7 @@ const WatchPage = () => {
 
   return (
     <div className="flex flex-col ">
-      <div className="px-10 py-2 ">
+      <div className="px-10 py-2  ">
         <div className="flex">
         <iframe
           width="660"
@@ -33,7 +33,9 @@ const WatchPage = () => {
       </div>
     
 
-      <CommentsContainer />
+       <div className="w-[660px] py-2">
+    <CommentsContainer />
+  </div>
     </div>
   );
 };
