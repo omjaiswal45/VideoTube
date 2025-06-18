@@ -12,7 +12,7 @@ const LiveChats = () => {
   useEffect(() => {
     const i =setInterval(() => {
       //API call to fetch live chat messages
-      console.log("Fetching live chat messages..."); 
+      // console.log("Fetching live chat messages..."); 
       dispatch(
         addMessage
         ({
@@ -20,7 +20,7 @@ const LiveChats = () => {
           message: generateRandomText(25),
         }
       ));
-    }, 2000);
+    }, 1500);
     return () => clearInterval(i);
 
   }, [])
