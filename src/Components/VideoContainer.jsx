@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import VideoCards from './VideoCards';
-import { Youtube_Video_Api_Url } from '../Utils/constants';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import VideoCards from "./VideoCards";
+import { Youtube_Video_Api_Url } from "../Utils/constants";
+import { Link } from "react-router-dom";
 
 const VideoContainer = () => {
   const [videos, setVideos] = useState([]);
@@ -21,10 +21,10 @@ const VideoContainer = () => {
       const data = await response.json();
 
       // Append new videos to existing list
-      setVideos(prev => [...prev, ...data.items]);
+      setVideos((prev) => [...prev, ...data.items]);
       setNextPageToken(data.nextPageToken);
     } catch (error) {
-      console.error('Error fetching videos:', error);
+      console.error("Error fetching videos:", error);
     } finally {
       setIsFetching(false);
     }
@@ -45,8 +45,8 @@ const VideoContainer = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [isFetching, nextPageToken]);
 
   return (
@@ -54,12 +54,15 @@ const VideoContainer = () => {
       <h1 className="text-xl font-bold m-4">Popular Videos</h1>
       <div className="flex flex-wrap gap-4 justify-center">
         {videos.map((video) => (
-          <Link key={video.id.videoId || video.id} to={"watch?v=" + (video.id.videoId || video.id)}>
+          <Link
+            key={video.id.videoId || video.id}
+            to={"watch?v=" + (video.id.videoId || video.id)}
+          >
             <VideoCards info={video} />
           </Link>
         ))}
       </div>
-      {isFetching && <p className="text-center my-4">Loading more videos...</p>}
+      {isFetching && <p className="text-center my-4">Loading more videos.....</p>}
     </div>
   );
 };
